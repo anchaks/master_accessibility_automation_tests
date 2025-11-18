@@ -1,5 +1,26 @@
 package keyboardTesting;
 
+/**
+ * Keyboard Accessibility Test Suite for iLive Electronics Website
+ * 
+ * PURPOSE:
+ * This test suite validates WCAG 2.1 Level A/AA keyboard accessibility compliance
+ * for the iLiveElectronics.com website. It ensures that all functionality is 
+ * accessible via keyboard without requiring a mouse.
+ * 
+ * WCAG GUIDELINES TESTED:
+ * - 2.1.1 Keyboard (Level A): All functionality available from a keyboard
+ * - 2.1.2 No Keyboard Trap (Level A): Keyboard focus can be moved away from any component
+ * - 2.4.1 Bypass Blocks (Level A): Skip links to bypass repeated content
+ * - 2.4.7 Focus Visible (Level AA): Keyboard focus indicator is visible
+ * 
+ * TEST APPROACH:
+ * - Uses Selenium WebDriver to simulate keyboard interactions
+ * - Tests Tab, Shift+Tab, Enter, and Arrow key navigation
+ * - Captures detailed results in timestamped TXT file
+ * - Provides HTML snippets for failed elements to aid debugging
+ */
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -7,8 +28,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -19,13 +38,15 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-public class WagentoProductionKeyboardTest 
+public class iliveelectronicsProductionKeyboardTest 
 {
     // Logger for console output during test execution
-    private static final Logger logger = LogManager.getLogger(WagentoProductionKeyboardTest.class);
+    private static final Logger logger = LogManager.getLogger(iliveelectronicsProductionKeyboardTest.class);
     
     // WebDriver instance for browser automation
     private WebDriver driver;
@@ -41,7 +62,7 @@ public class WagentoProductionKeyboardTest
     private static boolean fileInitialized = false;
     
     // URL of website under test
-    private static final String URL = "https://wagento.com/";
+    private static final String URL = "https://iliveelectronics.com/";
     
     /**
      * SETUP METHOD - Runs before each @Test method
@@ -76,7 +97,7 @@ public class WagentoProductionKeyboardTest
         if (!fileInitialized) {
             // Generate timestamp for unique filename
             String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-            txtFile = "WagentoProduction-keyboard-test-results-" + timeStamp + ".txt";
+            txtFile = "iLiveElectronicsProduction-keyboard-test-results-" + timeStamp + ".txt";
             
             // Create file and write header
             try (FileWriter writer = new FileWriter(txtFile)) {
@@ -536,9 +557,6 @@ public class WagentoProductionKeyboardTest
             List<WebElement> visitedElements = new ArrayList<>();
             int skippedDuplicates = 0;
             
-            // List to store all elements checked (for detailed report)
-            List<String> allElementsChecked = new ArrayList<>();
-            
             // Tab through elements and check each for visible focus indicator
             while (totalChecked < maxChecks) {
                 actions.sendKeys(Keys.TAB).perform();
@@ -585,54 +603,44 @@ public class WagentoProductionKeyboardTest
                                             (boxShadow.contains("rgb") && !boxShadow.contains("rgba(0, 0, 0, 0)")) ||
                                             border.contains("rgb");
                     
-                    // Get element information for reporting
-                    String tagName = activeElement.getTagName();
-                    String elementText = activeElement.getText();
-                    String elementInfo = tagName;
-                    
-                    if (activeElement.getAttribute("id") != null && !activeElement.getAttribute("id").isEmpty()) {
-                        elementInfo += " (id=" + activeElement.getAttribute("id") + ")";
-                    }
-                    
-                    if (elementText != null && !elementText.trim().isEmpty()) {
-                        String shortText = elementText.length() > 50 ? elementText.substring(0, 50) + "..." : elementText;
-                        elementInfo += " - \"" + shortText.trim() + "\"";
-                    }
-                    
-                    if (tagName.equals("a") && activeElement.getAttribute("href") != null) {
-                        String shortHref = activeElement.getAttribute("href");
-                        if (shortHref.length() > 60) {
-                            shortHref = shortHref.substring(0, 60) + "...";
-                        }
-                        elementInfo += " [href: " + shortHref + "]";
-                    }
-                    
-                    // Get HTML snippet
-                    String id = activeElement.getAttribute("id") != null ? " id=\"" + activeElement.getAttribute("id") + "\"" : "";
-                    String className = activeElement.getAttribute("class") != null ? " class=\"" + activeElement.getAttribute("class") + "\"" : "";
-                    String htmlSnippet = "";
-                    if (tagName.equals("a")) {
-                        String href = activeElement.getAttribute("href") != null ? " href=\"" + activeElement.getAttribute("href") + "\"" : "";
-                        htmlSnippet = "<a" + id + className + href + ">" + (elementText != null && !elementText.trim().isEmpty() ? elementText : "[No text]") + "</a>";
-                    } else if (tagName.equals("button")) {
-                        htmlSnippet = "<button" + id + className + ">" + (elementText != null && !elementText.trim().isEmpty() ? elementText : "[No text]") + "</button>";
-                    } else if (tagName.equals("input")) {
-                        String type = activeElement.getAttribute("type") != null ? " type=\"" + activeElement.getAttribute("type") + "\"" : "";
-                        htmlSnippet = "<input" + id + className + type + ">";
-                    } else {
-                        htmlSnippet = "<" + tagName + id + className + ">" + (elementText != null && !elementText.trim().isEmpty() ? elementText : "[No text]") + "</" + tagName + ">";
-                    }
-                    
                     if (hasVisibleFocus) {
                         visibleFocusCount++;
-                        // Add to all elements list with PASS indicator
-                        allElementsChecked.add(elementInfo + " | HTML: " + htmlSnippet + " | ✓ FOCUS VISIBLE");
                     } else {
                         noFocusCount++;
-                        // Add to failed elements list
+                        String tagName = activeElement.getTagName();
+                        String elementText = activeElement.getText();
+                        String elementInfo = tagName;
+                        
+                        if (activeElement.getAttribute("id") != null && !activeElement.getAttribute("id").isEmpty()) {
+                            elementInfo += " (id=" + activeElement.getAttribute("id") + ")";
+                        }
+                        
+                        if (elementText != null && !elementText.trim().isEmpty()) {
+                            String shortText = elementText.length() > 50 ? elementText.substring(0, 50) + "..." : elementText;
+                            elementInfo += " - \"" + shortText.trim() + "\"";
+                        }
+                        
+                        if (tagName.equals("a") && activeElement.getAttribute("href") != null) {
+                            elementInfo += " [href: " + activeElement.getAttribute("href") + "]";
+                        }
+                        
+                        // Get HTML snippet
+                        String id = activeElement.getAttribute("id") != null ? " id=\"" + activeElement.getAttribute("id") + "\"" : "";
+                        String className = activeElement.getAttribute("class") != null ? " class=\"" + activeElement.getAttribute("class") + "\"" : "";
+                        String htmlSnippet = "";
+                        if (tagName.equals("a")) {
+                            String href = activeElement.getAttribute("href") != null ? " href=\"" + activeElement.getAttribute("href") + "\"" : "";
+                            htmlSnippet = "<a" + id + className + href + ">" + (elementText != null && !elementText.trim().isEmpty() ? elementText : "[No text]") + "</a>";
+                        } else if (tagName.equals("button")) {
+                            htmlSnippet = "<button" + id + className + ">" + (elementText != null && !elementText.trim().isEmpty() ? elementText : "[No text]") + "</button>";
+                        } else if (tagName.equals("input")) {
+                            String type = activeElement.getAttribute("type") != null ? " type=\"" + activeElement.getAttribute("type") + "\"" : "";
+                            htmlSnippet = "<input" + id + className + type + ">";
+                        } else {
+                            htmlSnippet = "<" + tagName + id + className + ">" + (elementText != null && !elementText.trim().isEmpty() ? elementText : "[No text]") + "</" + tagName + ">";
+                        }
+                        
                         elementsWithoutFocus.add(elementInfo + " | HTML: " + htmlSnippet);
-                        // Add to all elements list with FAIL indicator
-                        allElementsChecked.add(elementInfo + " | HTML: " + htmlSnippet + " | ❌ NO VISIBLE FOCUS");
                     }
                 }
                 
@@ -647,36 +655,16 @@ public class WagentoProductionKeyboardTest
             
             if (percentage == 100.0) {
                 logger.info("PASSED: All elements have visible focus indicators");
-                
-                // Create detailed report with all elements
-                List<String> passReport = new ArrayList<>();
-                passReport.add("--- ALL ELEMENTS CHECKED (FOCUS VISIBILITY) ---");
-                passReport.addAll(allElementsChecked);
-                
                 writeToTxtFile("Test 3: Focus Visibility - Check Visual Focus Indicators", "PASSED", 
-                    "100% - All " + totalChecked + " elements have visible focus indicators (Duplicates skipped: " + skippedDuplicates + ")", passReport);
+                    "100% - All " + totalChecked + " elements have visible focus indicators (Duplicates skipped: " + skippedDuplicates + ")", null);
             } else {
                 logger.error("FAILED: " + noFocusCount + " elements lack visible focus indicators");
-                logger.error("=== ELEMENTS WITHOUT VISIBLE FOCUS ===");
-                
-                // Log each failing element to console for immediate visibility
-                int count = 1;
+                logger.warn("Elements without visible focus:");
                 for (String elem : elementsWithoutFocus) {
-                    logger.error("  " + count + ". " + elem);
-                    count++;
+                    logger.warn("  - " + elem);
                 }
-                logger.error("=====================================");
-                
-                // Create detailed report with all elements plus failure summary
-                List<String> failReport = new ArrayList<>();
-                failReport.add("--- ALL ELEMENTS CHECKED (FOCUS VISIBILITY) ---");
-                failReport.addAll(allElementsChecked);
-                failReport.add("");
-                failReport.add("--- ELEMENTS WITHOUT VISIBLE FOCUS (FAILURES ONLY) ---");
-                failReport.addAll(elementsWithoutFocus);
-                
                 writeToTxtFile("Test 3: Focus Visibility - Check Visual Focus Indicators", "FAILED", 
-                    String.format("%.1f", percentage) + "% - " + noFocusCount + " elements missing focus (Total checked: " + totalChecked + ", Duplicates: " + skippedDuplicates + ")", failReport);
+                    String.format("%.1f", percentage) + "% - " + noFocusCount + " elements missing focus (Total checked: " + totalChecked + ", Duplicates: " + skippedDuplicates + ")", elementsWithoutFocus);
             }
             
         } catch (Exception e) {
@@ -731,7 +719,7 @@ public class WagentoProductionKeyboardTest
         
         try {
             int tabsForward = 0;        // Counter for total tab operations
-            int maxTabs = 150;          // Maximum tabs to test (safety limit or until duplicate found)
+            int maxTabs = 100;          // Maximum tabs to test (safety limit or until duplicate found)
             int stuckCount = 0;         // Counter for consecutive tabs on same element
             
             // DUPLICATE DETECTION - Track visited elements to detect when tab cycle completes
@@ -1292,6 +1280,4 @@ public class WagentoProductionKeyboardTest
             logger.error("Failed to write to TXT file: " + e.getMessage());
         }
     }
-
-
 }

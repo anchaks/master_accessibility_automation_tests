@@ -1,7 +1,7 @@
 package keyboardTesting;
 
 /**
- * Keyboard Accessibility Test Suite for iLive Electronics Website
+ * Keyboard Accessibility Test Suite for iLive Electronics Staging Website
  * 
  * PURPOSE:
  * This test suite validates WCAG 2.1 Level A/AA keyboard accessibility compliance
@@ -43,10 +43,10 @@ import org.apache.logging.log4j.Logger;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-public class iliveelectronicsKeyboardTest 
+public class iliveelectronicsStagingKeyboardTest 
 {
     // Logger for console output during test execution
-    private static final Logger logger = LogManager.getLogger(iliveelectronicsKeyboardTest.class);
+    private static final Logger logger = LogManager.getLogger(iliveelectronicsStagingKeyboardTest.class);
     
     // WebDriver instance for browser automation
     private WebDriver driver;
@@ -62,7 +62,7 @@ public class iliveelectronicsKeyboardTest
     private static boolean fileInitialized = false;
     
     // URL of website under test
-    private static final String URL = "https://iliveelectronics.com/";
+    private static final String URL = "https://development.iliveelectronics.com/";
     
     /**
      * SETUP METHOD - Runs before each @Test method

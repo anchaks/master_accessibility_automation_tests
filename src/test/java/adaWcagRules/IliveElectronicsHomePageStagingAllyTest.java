@@ -18,18 +18,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import utilities.ExcelWriter;
 
-public class IliveElectronicsHomePageProductionAllyTest 
+public class IliveElectronicsHomePageStagingAllyTest 
 {
     // WebDriver instance to control the browser
     private WebDriver driver;
 
     // URL of the website to be tested
-    private static final String URL = "https://iliveelectronics.com/";
+    private static final String URL = "https://development.iliveelectronics.com/";
 
     // File to store the accessibility test results in JSON format
-    //private static final File JSON_RESULTS = new File("iLiveElectronicsProductionHomePage-wcag22-results.json");
-    private static final File JSON_RESULTS = new File("iLiveElectronicsProductionHomePage-wcag21-results.json");
-    //private static final File JSON_RESULTS = new File("iLiveElectronicsProductionHomePage-wcag22-results.json");
+    private static final File JSON_RESULTS = new File("iLiveElectronicsStagingHomePage-wcag21-results.json");
 
     // Method to set up the WebDriver before each test
     @BeforeMethod
@@ -37,7 +35,6 @@ public class IliveElectronicsHomePageProductionAllyTest
         // Setting up the ChromeDriver using WebDriverManager
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver(); // Initializing the WebDriver instance
-        driver.manage().window().maximize(); // Maximizing the browser window
     }
 
     // Method to clean up resources after each test
@@ -89,9 +86,9 @@ public class IliveElectronicsHomePageProductionAllyTest
         // Write violations to Excel
         JSONArray violations = new JSONArray(results.getViolations());
         String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-        //String fileName = "iLiveElectronicsProductionHomePage-wcag2-violations-" + timeStamp + ".xlsx";
-        String fileName = "iLiveElectronicsProductionHomePage-wcag21-violations-" + timeStamp + ".xlsx";
-        //String fileName = "iLiveElectronicsProductionHomePage-wcag22-violations-" + timeStamp + ".xlsx";
+        //String fileName = "iLiveElectronicsStagingHomePage-wcag2-violations-" + timeStamp + ".xlsx";
+        String fileName = "iLiveElectronicsStagingHomePage-wcag21-violations-" + timeStamp + ".xlsx";
+        //String fileName = "iLiveElectronicsStagingHomePage-wcag22-violations-" + timeStamp + ".xlsx";
         ExcelWriter.writeViolationsToExcel(fileName, violations);
     }
 
