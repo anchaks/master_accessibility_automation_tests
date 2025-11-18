@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Root element of the Maven project -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <!-- Model version for Maven POM -->
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Group ID uniquely identifies the project -->
+    <groupId>com.example</groupId>
+    <!-- Artifact ID is the name of the project -->
+    <artifactId>dequeuniversity</artifactId>
+    <!-- Version of the project -->
+    <version>1.0-SNAPSHOT</version>
+
+    <!-- Properties for Maven compiler plugin -->
+    <properties>
+        <!-- Java source version -->
+        <maven.compiler.source>21</maven.compiler.source>
+        <!-- Java target version -->
+        <maven.compiler.target>21</maven.compiler.target>
+        <!-- Explicitly set the file encoding to UTF-8 to avoid platform dependency -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <!-- Dependencies required for the project -->
+    <dependencies>
+        <!-- Selenium library for browser automation -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>4.38.0</version>
+        </dependency>
+        <!-- TestNG library for testing framework -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>7.11.0</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- WebDriverManager for managing browser drivers -->
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>6.3.3</version>
+        </dependency>
+        <!-- Axe-core library for accessibility testing -->
+        <dependency>
+            <groupId>com.deque.html.axe-core</groupId>
+            <artifactId>selenium</artifactId>
+            <version>4.10.1</version>
+        </dependency>
+        <!-- JSON library for handling JSON data -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20240303</version>
+        </dependency>
+        <!-- Apache POI for Excel manipulation -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>5.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>5.2.3</version>
+        </dependency>
+    </dependencies>
+
+    <!-- Build configuration for the project -->
+    <build>
+        <plugins>
+            <!-- Maven Surefire Plugin for running tests -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+                <configuration>
+                    <!-- Include only test files matching the pattern -->
+                    <includes>
+                        <include>**/*Test.java</include>
+                        <include>**/*test.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
+
